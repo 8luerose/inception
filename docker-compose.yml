@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb/
+    volumes:
+      - db:/var/lib/mysql
+    env_file:
+      - ./.env
+    expose:
+      - 3306
+    networks:
+      - ebangNetwork
+    restart: always
+
+  wordpress:
+    depends_on:
+      - mariadb
+    container_name: wordpress
+    build: ./requirements/wordpress/
+    volumes:
+      - wp:/var/www/html/wordpress
+    env_file:
+      - ./.env
+    expose:
+      - 9000
+    networks:
+      - ebangNetwork
+    restart: always
+
+  nginx:
+    depends_on:
+      - mariadb
+      - wordpress
+    container_name: nginx
+    build: ./requirements/nginx/
+    volumes:
+      - wp:/var/www/html/wordpress
+    env_file:
+      - ./.env
+    ports:
+      - 443:443
+    networks:
+      - ebangNetwork
+    restart: always
+
+volumes:
+  db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/ebang/data/mariadb'
+  wp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/ebang/data/wordpress'
+
+networks:
+  ebangNetwork: 
+    driver: bridge
