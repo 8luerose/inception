@@ -1,64 +1,62 @@
-version: "3"
+version: "3.8"
 
 services:
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb/
+    build:
+      context: ./requirements/mariadb
     volumes:
-      - db:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     env_file:
       - ./.env
-    expose:
-      - 3306
     networks:
-      - ebangNetwork
+      - inception
     restart: always
 
   wordpress:
     depends_on:
       - mariadb
     container_name: wordpress
-    build: ./requirements/wordpress/
+    build:
+      context: ./requirements/wordpress
     volumes:
-      - wp:/var/www/html/wordpress
+      - wordpress_volume:/var/www/html
     env_file:
       - ./.env
-    expose:
-      - 9000
     networks:
-      - ebangNetwork
+      - inception
     restart: always
 
   nginx:
     depends_on:
-      - mariadb
       - wordpress
     container_name: nginx
-    build: ./requirements/nginx/
+    build:
+      context: ./requirements/nginx
     volumes:
-      - wp:/var/www/html/wordpress
+      - wordpress_volume:/var/www/html
     env_file:
       - ./.env
     ports:
-      - 443:443
+      - "443:443"
     networks:
-      - ebangNetwork
+      - inception
     restart: always
 
 volumes:
-  db:
+  mariadb_volume:
     driver: local
     driver_opts:
-      type: none
-      o: bind
-      device: '/home/ebang/data/mariadb'
-  wp:
+      type: "none"
+      device: "/home/taehkwon/data/mariadb"
+      o: "bind"
+  wordpress_volume:
     driver: local
     driver_opts:
-      type: none
-      o: bind
-      device: '/home/ebang/data/wordpress'
+      type: "none"
+      device: "/home/taehkwon/data/wordpress"
+      o: "bind"
 
 networks:
-  ebangNetwork: 
+  inception:
     driver: bridge
