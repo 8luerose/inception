@@ -29,6 +29,7 @@ services:
 
   nginx:
     depends_on:
+      - mariadb
       - wordpress
     container_name: nginx
     build:
@@ -48,13 +49,15 @@ volumes:
     driver: local
     driver_opts:
       type: "none"
-      device: "/home/taehkwon/data/mariadb"
+      # device: "/home/taehkwon/data/mariadb"
+      device: "/Users/rose/Desktop/hm/taehkwon/data/mariadb"
       o: "bind"
   wordpress_volume:
     driver: local
     driver_opts:
       type: "none"
-      device: "/home/taehkwon/data/wordpress"
+      # device: "/home/taehkwon/data/wordpress"
+      device: "/Users/rose/Desktop/hm/taehkwon/data/wordpress"
       o: "bind"
 
 networks:

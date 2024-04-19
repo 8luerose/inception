@@ -6,7 +6,10 @@ USER = taehkwon
 COMPOSE_SOURCE = ./srcs/docker-compose.yml
 
 # 사용할 볼륨 경로 설정
-VOLUME_PATH = /home/$(USER)/data/mariadb /home/$(USER)/data/wordpress
+# 클러스터용 VOLUME_PATH = /home/$(USER)/data/mariadb /home/$(USER)/data/wordpress
+VOLUME_PATH = /Users/rose/Desktop/hm/$(USER)/data/mariadb /Users/rose/Desktop/hm/$(USER)/data/wordpress
+# 노트북용
+
 # "잉? 고마 어떻게 2개가 됩니꺼?" -> make 명령은 변수에 저장된 값들을 공백으로 구분하여 인식
 # 따라서, "args1", "args2"로 인식
 # 예시) mkdir -p args1 args2

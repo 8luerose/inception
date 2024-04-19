@@ -27,12 +27,14 @@ RUN mkdir -p /etc/nginx/ssl
 
 # SSL 인증서 생성
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-    -out /etc/nginx/ssl/nginx.crt \
-    -keyout /etc/nginx/ssl/nginx.key \
+    # -out /etc/nginx/ssl/nginx.crt \
+	-out /etc/nginx/ssl/taehkwon.pem \
+    # -keyout /etc/nginx/ssl/nginx.key \
+	-keyout /etc/nginx/ssl/taehkwon.key \
     -subj "/C=KR/ST=Seoul/L=Seoul/O=42/CN=localhost"
 
 # Nginx 설정 파일 복사
-COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 
 # Nginx 실행을 위한 포트 노출
 EXPOSE 443

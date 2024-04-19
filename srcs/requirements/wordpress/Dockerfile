@@ -5,31 +5,34 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     mariadb-client \
-    php8.0 \
-    php8.0-fpm \
-    php8.0-mysql \
-    php8.0-xml \
-    php8.0-curl \
-    php8.0-gd \
-    php8.0-mbstring \
-    php8.0-cli \
+    php7.4 \
+    php7.4-fpm \
+    php7.4-mysql \
+    php7.4-xml \
+    php7.4-curl \
+    php7.4-gd \
+    php7.4-mbstring \
+    php7.4-cli \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP-FPM 설정 파일 복사
-COPY ./conf/www.conf /etc/php/8.0/fpm/pool.d/
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 
 # WP-CLI 설치
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+RUN mkdir -p /var/log/php7.4-fpm && chown www-data:www-data /var/log/php7.4-fpm
+
+
 # 실행 스크립트 복사 및 실행 권한 부여
-COPY ./scripts/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY ./tools/wordpress_setting.sh /wordpress_setting.sh
+RUN chmod +x /wordpress_setting.sh
 
 # 컨테이너 시작 시 실행할 명령어
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["php-fpm8.0", "-F"]
+ENTRYPOINT ["/wordpress_setting.sh"]
+CMD ["php-fpm7.4", "-F"]
 
 # 9000 포트 개방
 EXPOSE 9000
