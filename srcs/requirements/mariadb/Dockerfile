@@ -5,19 +5,24 @@ FROM debian:bullseye
 RUN apt-get update \
     && apt-get install -y mariadb-server mariadb-client \
     && mkdir -p /run/mysqld /var/lib/mysql \
-    && chown -R mysql:mysql /run/mysqld /var/lib/mysql
+    && chown -R mysql:mysql /run/mysqld /var/lib/mysql \
+    && chmod 777 /run/mysqld /var/lib/mysql
 
 # 설정 파일 및 스크립트 복사
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY tools/init.sh /usr/local/bin/init.sh
+# COPY tools/init.sh /usr/local/bin/init.sh
+COPY --chown=root:root tools/init.sh ./init.sh
+
 
 # 스크립트 실행 권한 부여
-RUN chmod 755 /usr/local/bin/init.sh \
+# RUN chmod 755 /usr/local/bin/init.sh \
+RUN chmod 755 ./init.sh \
     && chmod 644 /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # 포트 및 볼륨 설정
 EXPOSE 3306
-VOLUME ["/var/lib/mysql"]
+# VOLUME ["/var/lib/mysql"]
 
 # 초기화 스크립트 실행
-ENTRYPOINT ["/usr/local/bin/init.sh"]
+# ENTRYPOINT ["/usr/local/bin/init.sh"]
+ENTRYPOINT ["./init.sh"]

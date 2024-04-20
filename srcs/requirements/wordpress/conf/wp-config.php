@@ -15,17 +15,17 @@
 
 // ** 데이터베이스 설정 - 웹 호스팅 제공업체에서 이 정보를 얻을 수 있습니다 ** //
 
-// define('DB_NAME', 'wordpress');					// WordPress 데이터베이스 이름
-define('DB_NAME', getenv('MYSQL_DATABASE'));		// WordPress 데이터베이스 이름
+define('DB_NAME', 'wordpress');					// WordPress 데이터베이스 이름
+// define('DB_NAME', getenv('MYSQL_DATABASE'));		// WordPress 데이터베이스 이름
 
-// define('DB_USER', 'taehkwon');      			// MySQL 데이터베이스 사용자 이름
-define('DB_USER', getenv('MYSQL_USER'));      	// MySQL 데이터베이스 사용자 이름
+define('DB_USER', 'taehkwon');      			// MySQL 데이터베이스 사용자 이름
+// define('DB_USER', getenv('MYSQL_USER'));      	// MySQL 데이터베이스 사용자 이름
 
-// define('DB_PASSWORD', 'top-secret');  			// MySQL 데이터베이스 비밀번호
-define('DB_PASSWORD', getenv('MYSQL_PASSWORD'));  // MySQL 데이터베이스 비밀번호
+define('DB_PASSWORD', 'top-secret');  			// MySQL 데이터베이스 비밀번호
+// define('DB_PASSWORD', getenv('MYSQL_PASSWORD'));  // MySQL 데이터베이스 비밀번호
 
-// define('DB_HOST', 'mariadb' );      			// MySQL 호스트 이름
-define('DB_HOST', getenv('MYSQL_HOST'));      	// MySQL 호스트 이름
+define('DB_HOST', 'mariadb' );      			// MySQL 호스트 이름
+// define('DB_HOST', getenv('MYSQL_HOST'));      	// MySQL 호스트 이름
 
 define('DB_PORT', '3306' );	  				// MySQL 포트 번호
 
