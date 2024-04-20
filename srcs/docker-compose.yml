@@ -44,6 +44,9 @@ services:
       - inception
     restart: always
 
+
+
+
 volumes:
   mariadb_volume:
     driver: local
@@ -62,4 +65,5 @@ volumes:
 
 networks:
   inception:
+    name: inception
     driver: bridge

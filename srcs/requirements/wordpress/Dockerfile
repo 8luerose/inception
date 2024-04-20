@@ -23,7 +23,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
-RUN mkdir -p /var/log/php7.4-fpm && chown www-data:www-data /var/log/php7.4-fpm
+RUN mkdir -p /var/log/php7.4-fpm && chown www-data:www-data /var/log/php7.4-fpm \
+	&& mkdir -p /run/php && chown -R www-data:www-data /run/php
 
 
 # 실행 스크립트 복사 및 실행 권한 부여
