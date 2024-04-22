@@ -9,6 +9,8 @@ services:
       - mariadb_volume:/var/lib/mysql
     env_file:
       - ./.env
+    expose:
+      - 3306
     networks:
       - inception
     restart: always
@@ -23,6 +25,8 @@ services:
       - wordpress_volume:/var/www/html
     env_file:
       - ./.env
+    expose:
+      - 9000
     networks:
       - inception
     restart: always
@@ -39,7 +43,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - "443:443"
+      - 443:443
     networks:
       - inception
     restart: always

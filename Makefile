@@ -28,7 +28,7 @@ all:
 
 # 'clean' 타겟: Docker 컴포즈를 사용하여 서비스를 정지
 clean:
-	@docker-compose -f $(COMPOSE_SOURCE) down --volumes
+	@docker-compose -f $(COMPOSE_SOURCE) down
 # 'make clean'을 실행할 때 수행할 작업을 정의
 # 실행 중인 Docker 컨테이너를 중지하고 제거
 

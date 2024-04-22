@@ -16,7 +16,7 @@
 # # Nginx 시작
 # CMD ["nginx", "-g", "daemon off;"]
 
-FROM debian:buster
+FROM debian:bullseye
 
 # Nginx와 OpenSSL 설치
 RUN apt-get update && \
