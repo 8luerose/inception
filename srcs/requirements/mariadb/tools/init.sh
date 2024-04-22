@@ -1,47 +1,38 @@
 #!/bin/bash
 set -e
 
-# Exit shell script when commands fail
-set -e
+# 종료 시 모든 프로세스 정리
+pkill mysqld || true
 
-chown -R mysql:mysql /var/lib/mysql
+# 기존 데이터베이스 파일 제거
+rm -rf /var/lib/mysql/*
 
-# Check if the system table is already installed
+# 데이터베이스 초기 설치 확인
 if [ ! -d /var/lib/mysql/mysql ]; then
     echo "Database not installed, initializing..."
-    mariadb-install-db --user=mysql 
+    mariadb-install-db
 
-    # Start MariaDB server in background
-    mariadbd &
-    
-    # Wait until MariaDB server is up
-    mariadb-admin ping --wait=1 --connect-timeout=30
-    
-    # # Set root user's password and configure database
-    # mysql -u root -h localhost -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';"
-    # mysql -u root -h localhost -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
-    # mysql -u root -h localhost -e "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';"
-    # mysql -u root -h localhost -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
-    # mysql -u root -h localhost -e "FLUSH PRIVILEGES;"
+    # MariaDB 서버 백그라운드 시작
+    mysqld_safe --skip-networking &
 
-	echo "Configuring root user permissions..."
-    mysql -u root --password='' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;"
-    mysql -u root --password="$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD' WITH GRANT OPTION;"
-    mysql -u root --password="$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
+    # MariaDB 서버가 응답할 때까지 대기
+    while ! mariadb-admin ping --silent; do
+        sleep 1
+    done
 
-    echo "Creating database and user..."
-    mysql -u root --password="$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
-    mysql -u root --password="$MYSQL_ROOT_PASSWORD" -e "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';"
-    mysql -u root --password="$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
-    mysql -u root --password="$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
-    
-    # Stop the MariaDB server
+    # root 사용자 비밀번호 설정
+    mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');"
+
+    # 사용자와 데이터베이스 생성
+    mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
+    mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+    mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
+    mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+
+    # MariaDB 서버 종료
     mariadb-admin shutdown
-    
-    echo "Database setup complete."
 else
     echo "Database already installed."
 fi
 
-# Start MariaDB server in foreground
-exec mysqld_safe
+mysqld --user=root

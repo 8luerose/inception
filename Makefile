@@ -28,21 +28,23 @@ all:
 
 # 'clean' 타겟: Docker 컴포즈를 사용하여 서비스를 정지
 clean:
-	@docker-compose -f $(COMPOSE_SOURCE) down
+	@docker-compose -f $(COMPOSE_SOURCE) down --volumes
 # 'make clean'을 실행할 때 수행할 작업을 정의
 # 실행 중인 Docker 컨테이너를 중지하고 제거
 
 
 # 'fclean' 타겟: 서비스를 정지하고 모든 이미지와 볼륨을 제거
 fclean: clean
-	@docker-compose -f $(COMPOSE_SOURCE) down --rmi all -v
+	@docker-compose -f $(COMPOSE_SOURCE) down --rmi all --volumes
+	@docker volume prune -f
+	@docker network prune -f
 # 모든 이미지와 관련 볼륨을 제거
 
 
 # 'ffclean' 타겟: fclean을 수행하고 지정된 볼륨 경로를 삭제
 ffclean: fclean
 	@sudo rm -rf $(VOLUME_PATH)
-	@docker system prune -f
+	@docker system prune -a -f
 # 설정된 볼륨 경로를 완전히 제거
 # 사용하지 않는 Docker 리소스를 강제로 제거
 
