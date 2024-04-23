@@ -20,10 +20,11 @@ VOLUME_PATH = /Users/rose/Desktop/hm/$(USER)/data/mariadb /Users/rose/Desktop/hm
 
 # 'all' 타겟: 필요한 디렉토리를 생성하고 Docker 컨테이너를 시작
 all:
-	@mkdir -p $(VOLUME_PATH)  
+	@mkdir -p $(VOLUME_PATH)
 	@docker-compose -f $(COMPOSE_SOURCE) up -d --build
 # 필요한 볼륨 경로를 생성
 # Docker 컨테이너를 빌드하고 백그라운드에서 실행
+# 이것때문일수도 mkdir -p 없애보기!!
 
 
 # 'clean' 타겟: Docker 컴포즈를 사용하여 서비스를 정지

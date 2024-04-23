@@ -9,6 +9,7 @@ if [ ! -d /var/lib/mysql/${MYSQL_DATABASE} ]; then
 	echo "	@ @ HERE _ 2 @ @ mairaDB is started. "
 
     mysql -u root -e "CREATE DATABASE $MYSQL_DATABASE;"
+	#if not 들어감
 	echo "	@ @ HERE _ 3 @ @ mairaDB is created. "
     mysql -u root -e "CREATE user $MYSQL_USER@'%' identified by '$MYSQL_PASSWORD';"
 	echo "	@ @ HERE _ 4 @ @ mairaDB user is created. "
@@ -25,3 +26,4 @@ else
 fi
 
 mysqld --user=root
+#mariadbd 포그라운드

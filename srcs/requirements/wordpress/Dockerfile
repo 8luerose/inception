@@ -19,12 +19,12 @@ RUN apt-get update && apt-get install -y \
 # WP-CLI 설치
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp \
-	&& mkdir -p /var/www/html \
-	&& mkdir -p /tmp
+    && mv wp-cli.phar /usr/local/bin/wp
+	# && mkdir -p /var/www/html \
+	# && mkdir -p /tmp
 
 # COPY ./tools/wp-config.php /var/www/html/wp-config.php
-COPY ./conf/wp-config.php /tmp/wp-config.php
+# COPY ./conf/wp-config.php /tmp/wp-config.php
 
 	
 	# RUN mkdir -p /var/log/php7.4-fpm && chown www-data:www-data /var/log/php7.4-fpm \
