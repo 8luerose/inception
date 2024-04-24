@@ -1,4 +1,4 @@
-# # 기반 이미지 설정
+# 1차 설정
 # FROM debian:bullseye
 
 # # 필수 패키지 설치 및 설정
@@ -36,24 +36,44 @@
 # # ENTRYPOINT ["./init.sh", "mariadbd"]
 # ENTRYPOINT ["./init.sh"]
 
+
+
+# # 2차 설정
+# FROM	debian:bullseye
+
+# RUN 	apt-get -y update 
+		
+# RUN		apt-get -y install mariadb-server \
+# 		&& mkdir /run/mysqld \
+# 		&& chmod 777 /run/mysqld \
+# 		&& chmod 777 /var/lib/mysql \
+# 		&& rm -rf /var/lib/mysql/aria_log_control
+# 		# && rm -rf /var/lib/mysql/*
+
+# COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+# COPY	tools/settings.sh ./init.sh
+
+# RUN		chmod 044 /etc/mysql/mariadb.conf.d/50-server.cnf
+# RUN		chmod 755 ./init.sh
+
+# ENTRYPOINT	["/usr/bin/dumb-init", "--"]
+
+# CMD		["./init.sh"]
+
 FROM	debian:bullseye
 
-RUN 	apt-get -y update \
-		&& apt-get -y install dumb-init
+RUN 	apt-get -y update 
 		
-RUN		apt-get -y install mariadb-server mariadb-client \
-		&& mkdir /run/mysqld \
-		&& chmod 777 /run/mysqld \
-		&& chmod 777 /var/lib/mysql \
-		&& rm -rf /var/lib/mysql/aria_log_control
-		# && rm -rf /var/lib/mysql/*
+RUN		apt-get -y install mariadb-server 
 
 COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY	tools/settings.sh ./init.sh
+COPY	tools/init.sh ./init.sh
 
 RUN		chmod 044 /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN		chmod 755 ./init.sh
 
-ENTRYPOINT	["/usr/bin/dumb-init", "--"]
+# ENTRYPOINT	["/usr/bin/dumb-init", "--"]
 
 CMD		["./init.sh"]
+
+EXPOSE 3306

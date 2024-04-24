@@ -7,13 +7,13 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     php7.4 \
     php7.4-fpm \
-    php7.4-mysql \
-    php7.4-xml \
-    php7.4-curl \
-    php7.4-gd \
-    php7.4-mbstring \
-    php7.4-cli \
-    && rm -rf /var/lib/apt/lists/*
+    php7.4-mysql
+    # php7.4-xml \
+    # php7.4-curl \
+    # php7.4-gd \
+    # php7.4-mbstring \
+    # php7.4-cli \
+    # && rm -rf /var/lib/apt/lists/*
 
 
 # WP-CLI 설치
@@ -34,15 +34,16 @@ RUN mkdir -p /run/php && chmod 777 /run/php
 	
 	
 # PHP-FPM 설정 파일 복사
-COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+# COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 # 실행 스크립트 복사 및 실행 권한 부여
 COPY ./tools/wordpress_setting.sh /wordpress_setting.sh
-RUN chmod +x /wordpress_setting.sh
+# RUN chmod +x /wordpress_setting.sh
+RUN chmod 777 /wordpress_setting.sh
+# 컨테이너 시작 시 실행할 명령어
+# ENTRYPOINT ["/wordpress_setting.sh"]
+# CMD ["php-fpm7.4", "-F"]
+
+CMD ["./wordpress_setting.sh"]
 
 # 9000 포트 개방
 EXPOSE 9000
-
-# 컨테이너 시작 시 실행할 명령어
-ENTRYPOINT ["/wordpress_setting.sh"]
-CMD ["php-fpm7.4", "-F"]
-

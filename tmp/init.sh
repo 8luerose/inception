@@ -11,7 +11,7 @@ rm -rf /var/lib/mysql/*
 
 # 데이터베이스 초기 설치 확인
 # if [ ! -d /var/lib/mysql/mysql ]; then
-if [ ! -d /var/lib/mysql/${MYSQL_DATABASE} ]; then
+if [ ! -d /var/lib/mysql/${DATABASE_NAME} ]; then
     echo "Database not installed, initializing..."
     mariadb-install-db
 
@@ -25,21 +25,21 @@ if [ ! -d /var/lib/mysql/${MYSQL_DATABASE} ]; then
 	service mariadb start
 
     # # root 사용자 비밀번호 설정
-    # mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');"
+    # mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${DATABASE_ROOT_PASSWORD}');"
 
     # # 사용자와 데이터베이스 생성
-    # mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
-    # mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-    # mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
-    # mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+    # mysql -u root -p"${DATABASE_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME};"
+    # mysql -u root -p"${DATABASE_ROOT_PASSWORD}" -e "CREATE USER '${DATABASE_USER}'@'%' IDENTIFIED BY '${DATABASE_PASSWORD}';"
+    # mysql -u root -p"${DATABASE_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON ${DATABASE_NAME}.* TO '${DATABASE_USER}'@'%';"
+    # mysql -u root -p"${DATABASE_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
 
 	 # root 사용자 비밀번호 설정
-    # mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');"
+    # mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${DATABASE_ROOT_PASSWORD}');"
 
     # 사용자와 데이터베이스 생성
-    mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
-    mysql -u root -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-    mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
+    mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME};"
+    mysql -u root -e "CREATE USER '${DATABASE_USER}'@'%' IDENTIFIED BY '${DATABASE_PASSWORD}';"
+    mysql -u root -e "GRANT ALL PRIVILEGES ON ${DATABASE_NAME}.* TO '${DATABASE_USER}'@'%';"
     mysql -u root -e "FLUSH PRIVILEGES;"
 
     # MariaDB 서버 종료

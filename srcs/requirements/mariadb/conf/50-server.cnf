@@ -12,7 +12,7 @@
 # * Basic Settings
 #
  
-user                    = root
+user                    = mysql
 # mysql
 pid-file                = /run/mysqld/mysqld.pid
 basedir                 = /usr
@@ -29,7 +29,6 @@ skip-external-locking
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
 bind-address            = 0.0.0.0
-port                    = 3306
 
 #
 # * Fine Tuning
