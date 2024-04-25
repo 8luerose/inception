@@ -32,7 +32,6 @@ services:
 
   nginx:
     depends_on:
-      # - mariadb
       - wordpress
     container_name: nginx
     image: nginx:42
