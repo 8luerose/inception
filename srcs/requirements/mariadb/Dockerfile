@@ -12,4 +12,4 @@ RUN		chmod 755 ./init.sh
 
 CMD		["./init.sh"]
 
-EXPOSE 3306
+EXPOSE	3306
