@@ -7,11 +7,11 @@ COMPOSE_SOURCE = ./srcs/docker-compose.yml
 
 # 사용할 볼륨 경로 설정
 # 클러스터용
-# MARIADB_VOLUME_PATH = /home/$(USER)/data/mariadb
-# WORDPRESS_VOLUME_PATH = /home/$(USER)/data/wordpress
+MARIADB_VOLUME_PATH = /home/$(USER)/data/mariadb
+WORDPRESS_VOLUME_PATH = /home/$(USER)/data/wordpress
 # 노트북용
-MARIADB_VOLUME_PATH = /Users/rose/Desktop/hm/$(USER)/data/mariadb
-WORDPRESS_VOLUME_PATH = /Users/rose/Desktop/hm/$(USER)/data/wordpress
+# MARIADB_VOLUME_PATH = /Users/rose/Desktop/hm/$(USER)/data/mariadb
+# WORDPRESS_VOLUME_PATH = /Users/rose/Desktop/hm/$(USER)/data/wordpress
 
 all: dirs
 	@make build
