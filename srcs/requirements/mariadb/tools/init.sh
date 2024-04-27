@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ### owner setting ###
 chown -R mysql:mysql /var/lib/mysql
